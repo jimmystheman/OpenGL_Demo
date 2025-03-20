@@ -9,6 +9,13 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+// process input, escape = indicate window should close
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+}
+
 int main()
 {
     // proj set up
@@ -44,8 +51,18 @@ int main()
     // while loop to keep program running, check for events
     while (!glfwWindowShouldClose(window))
     {
-        glfwSwapBuffers(window); // swap front (display) buffer with back buffer when it's ready render next frame
+        // user input
+        processInput(window);
+
+        // render
+        glClearColor(1.0f, 0.3f, 0.3f, 1.0f); // define color to set when clear called
+        glClear(GL_COLOR_BUFFER_BIT); // clear screen, set to solid color
+
+        // check events/call callbacks
         glfwPollEvents();
+
+        // swap front (display) buffer with back buffer when it's ready render next frame
+        glfwSwapBuffers(window);
     }
 
     // exit when window closed
